@@ -1,14 +1,18 @@
 import CpfValidator from "./CpfValidator";
 
+export type EnrollmentRequest = {
+    student: Student
+}
+
 export default class EnrollStudent {
     private cpfValidator: CpfValidator;
-    private students: Array<any> = [];
+    private students: Array<Student> = [];
     
     constructor(cpfValidator: CpfValidator){
         this.cpfValidator = cpfValidator;
     }
 
-    execute(enrollmentRequest: any) {        
+    execute(enrollmentRequest: EnrollmentRequest) {        
         const student = enrollmentRequest.student
         const regexForValidStudentName = /^([A-Za-z]+ )+([A-Za-z])+$/;
         if(!student || !student.name || !regexForValidStudentName.test(student.name)) throw new Error("Invalid student name");
@@ -17,9 +21,10 @@ export default class EnrollStudent {
         this.students.push(student);        
     }
 
-    private isAlreadyStored(student: any): boolean {
-        return this.students.find(function (storedStudent: any){
-            return storedStudent.cpf === student.cpf
+    private isAlreadyStored(student: Student): boolean {        
+        const storedStudent = this.students.find(function (storedStudent: Student){
+            return storedStudent.cpf === student.cpf;
         });
+        return storedStudent !== undefined
     }
 }

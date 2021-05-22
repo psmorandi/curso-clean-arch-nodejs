@@ -1,11 +1,12 @@
 import CpfValidator from "./CpfValidator";
-import EnrollStudent from "./EnrollStudent";
+import EnrollStudent, { EnrollmentRequest } from "./EnrollStudent";
 
 test("Should not enroll without valid student name", function () {
     const enrollStudent = new EnrollStudent(new CpfValidator());
-    const enrollmentRequest = {
+    const enrollmentRequest: EnrollmentRequest = {
         student: {
-            name: "Ana"
+            name: "Ana",
+            cpf: ''
         }
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Invalid student name"))
@@ -13,7 +14,7 @@ test("Should not enroll without valid student name", function () {
 
 test("Should not enroll without valid student cpf", function () {
     const enrollStudent = new EnrollStudent(new CpfValidator());
-    const enrollmentRequest = {
+    const enrollmentRequest: EnrollmentRequest = {
         student: {
             name: "Ana Silva",
             cpf: "123.456.789-99"
@@ -24,7 +25,7 @@ test("Should not enroll without valid student cpf", function () {
 
 test("Should not enroll duplicated student", function () {
     const enrollStudent = new EnrollStudent(new CpfValidator());
-    const enrollmentRequest = {
+    const enrollmentRequest: EnrollmentRequest = {
         student: {
             name: "Ana Silva",
             cpf: "832.081.519-34"
